@@ -11,11 +11,11 @@ internal sealed class SettingsForm : Form
     private readonly VolumeBalancer _balancer;
     private readonly Action _onChanged;
 
-    private readonly CheckBox _chkEnabled = new() { Text = "Lautstärke-Kopplung aktiv", AutoSize = true };
+    private readonly CheckBox _chkEnabled = new() { Text = "Volume-coupling active", AutoSize = true };
     private readonly ComboBox _cmbA = CreateCombo();
     private readonly ComboBox _cmbB = CreateCombo();
-    private readonly CheckBox _chkMute = new() { Text = "Stummschaltung von Gerät 1 auf Gerät 2 übertragen", AutoSize = true };
-    private readonly CheckBox _chkAutostart = new() { Text = "Mit Windows starten (im Hintergrund)", AutoSize = true };
+    private readonly CheckBox _chkMute = new() { Text = "Sync mute to device 2", AutoSize = true };
+    private readonly CheckBox _chkAutostart = new() { Text = "Autostart on startup as background application", AutoSize = true };
     private readonly Label _lblStatus = new() { AutoSize = true, ForeColor = SystemColors.GrayText };
     private bool _loading;
 
@@ -46,11 +46,11 @@ internal sealed class SettingsForm : Form
             Dock = DockStyle.Fill
         };
         AddSpanning(layout, _chkEnabled);
-        AddLabeled(layout, "Gerät 1 (führend):", _cmbA);
-        AddLabeled(layout, "Gerät 2 (gegenläufig):", _cmbB);
+        AddLabeled(layout, "Device 1 (leading):", _cmbA);
+        AddLabeled(layout, "Device 2 (opposing):", _cmbB);
         AddSpanning(layout, new Label
         {
-            Text = "Lautstärke Gerät 2 = 100 % − Lautstärke Gerät 1",
+            Text = "Volume device 2 = 100 % - volume device 1",
             AutoSize = true,
             ForeColor = SystemColors.GrayText
         });
@@ -107,7 +107,7 @@ internal sealed class SettingsForm : Form
         // damit die Auswahl nicht versehentlich verloren geht.
         if (selected is null && !string.IsNullOrEmpty(savedId))
         {
-            selected = new AudioDevice(savedId, savedName ?? "Unbekanntes Gerät", Available: false);
+            selected = new AudioDevice(savedId, savedName ?? "unknown device", Available: false);
             combo.Items.Add(selected);
         }
 
@@ -134,7 +134,7 @@ internal sealed class SettingsForm : Form
             }
             else
             {
-                MessageBox.Show(this, "Der Autostart-Eintrag konnte nicht geändert werden.", Text,
+                MessageBox.Show(this, "Autostart setting could not be changed.", Text,
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 _loading = true;
                 _chkAutostart.Checked = _settings.StartWithWindows;

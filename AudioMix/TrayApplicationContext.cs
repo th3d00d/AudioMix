@@ -21,7 +21,7 @@ internal sealed class TrayApplicationContext : ApplicationContext
         if (_settings.StartWithWindows)
             AutostartManager.TrySet(true);
 
-        _enabledItem = new ToolStripMenuItem("Aktiv") { CheckOnClick = true, Checked = _settings.Enabled };
+        _enabledItem = new ToolStripMenuItem("Enabled") { CheckOnClick = true, Checked = _settings.Enabled };
         _enabledItem.Click += (_, _) =>
         {
             _settings.Enabled = _enabledItem.Checked;
@@ -30,10 +30,10 @@ internal sealed class TrayApplicationContext : ApplicationContext
         };
 
         var menu = new ContextMenuStrip();
-        menu.Items.Add("Einstellungen …", null, (_, _) => ShowSettings());
+        menu.Items.Add("Settings…", null, (_, _) => ShowSettings());
         menu.Items.Add(_enabledItem);
         menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add("Beenden", null, (_, _) => ExitThread());
+        menu.Items.Add("Exit", null, (_, _) => ExitThread());
 
         _tray = new NotifyIcon
         {

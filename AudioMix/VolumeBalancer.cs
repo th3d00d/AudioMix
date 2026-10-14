@@ -7,7 +7,7 @@ namespace AudioMix;
 /// <summary>Ein Wiedergabegerät für die Auswahlfelder.</summary>
 public sealed record AudioDevice(string Id, string Name, bool Available = true)
 {
-    public override string ToString() => Available ? Name : $"{Name} (nicht verbunden)";
+    public override string ToString() => Available ? Name : $"{Name} (not connected)";
 }
 
 /// <summary>
@@ -40,7 +40,7 @@ public sealed class VolumeBalancer : IDisposable
     private bool _lastMuteA;
     private float _lastTarget = -1f, _lastReadBack = -1f;
 
-    public string Status { get; private set; } = "Deaktiviert";
+    public string Status { get; private set; } = "Disabled";
     public event Action? StatusChanged;
 
     public VolumeBalancer()
@@ -91,10 +91,10 @@ public sealed class VolumeBalancer : IDisposable
     {
         Disconnect();
 
-        if (!_active) { SetStatus("Deaktiviert"); return; }
+        if (!_active) { SetStatus("Disabled"); return; }
         if (string.IsNullOrEmpty(_idA) || string.IsNullOrEmpty(_idB) || _idA == _idB)
         {
-            SetStatus("Bitte zwei verschiedene Geräte auswählen");
+            SetStatus("Please select two different devices");
             return;
         }
 
@@ -106,7 +106,7 @@ public sealed class VolumeBalancer : IDisposable
             if (_devA.State != DeviceState.Active || _devB.State != DeviceState.Active)
             {
                 Disconnect();
-                SetStatus("Warte auf Geräte …");
+                SetStatus("Waiting for devices…");
                 return;
             }
 
@@ -121,12 +121,12 @@ public sealed class VolumeBalancer : IDisposable
             if (_syncMute) _volB.Mute = _lastMuteA;   // Startzustand angleichen
             Sync();
 
-            SetStatus("Aktiv – Gerät 2 folgt Gerät 1");
+            SetStatus("Active – device 2 is now following device 1");
         }
         catch (Exception ex) when (IsDeviceError(ex))
         {
             Disconnect();
-            SetStatus("Warte auf Geräte …");
+            SetStatus("Waiting for devices…");
         }
     }
 
