@@ -46,3 +46,7 @@ Settings are stored in `%AppData%\AudioMix\settings.json`. If you delete the fil
 ## License
 
 AudioMix is licensed under the [GNU General Public License v3.0](LICENSE). Everyone may use, modify and share the code, but modified versions have to be released as open source under the GPL as well.
+
+## App Icon
+
+The application icon is part of the Small Flat Vectors icon pack and is distributed under the CC0 1.0 Universal license (public domain dedication).
